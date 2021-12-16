@@ -3,18 +3,18 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.3"
 
-gem "rails", "7.0.0"
+gem "rails",           "7.0.0"
 gem "sprockets-rails", "3.4.2"
-gem "sqlite3", "1.4.2"
-gem "puma", "5.5.2"
+gem "puma",            "5.5.2"
 gem "importmap-rails", "1.0.1"
-gem "turbo-rails", "1.0.0"
-gem "stimulus-rails", "1.0.0"
-gem "jbuilder", "2.11.3"
-gem "bootsnap", "1.9.3", require: false
+gem "turbo-rails",     "1.0.0"
+gem "stimulus-rails",  "1.0.0"
+gem "jbuilder",        "2.11.3"
+gem "bootsnap",        "1.9.3", require: false
 
 group :development, :test do
-  gem "debug", "1.3.4", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug",   "1.3.4", platforms: %i[ mri mingw x64_mingw ]
+  gem "sqlite3", "1.4.2"
 end
 
 group :development do
@@ -22,9 +22,9 @@ group :development do
 end
 
 group :test do
-  gem "capybara"
-  gem "selenium-webdriver"
-  gem "webdrivers"
+  gem "capybara",           "3.36.0"
+  gem "selenium-webdriver", "4.1.0"
+  gem "webdrivers",         "5.0.0"
 end
 
 group :production do
