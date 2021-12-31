@@ -14,9 +14,7 @@ class UsersController < ApplicationController
     if @user.save
       # Handle a successful save.
     else
-      logger.debug "+" * 50
-      logger.debug @user.errors.full_messages
-      render 'new'
+      render 'new', status: :unprocessable_entity
     end
   end
 
