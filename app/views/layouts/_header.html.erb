@@ -27,7 +27,8 @@
               <li><%= link_to "Settings", '#' %></li>
               <li class="divider"></li>
               <li>
-                <%= link_to "Log out", logout_path, method: :delete %>
+                <%= link_to "Log out", logout_path,
+                                       data: { "turbo-method": :delete } %>
               </li>
             </ul>
           </li>
