@@ -1,16 +1,19 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "rails",           "7.0.0"
-gem "bcrypt",          "3.1.16"
-gem "bootstrap-sass",  "3.4.1"
-gem "sprockets-rails", "3.4.2"
-gem "importmap-rails", "1.0.1"
-gem "turbo-rails",     "1.0.0"
-gem "stimulus-rails",  "1.0.2"
-gem "jbuilder",        "2.11.5"
-gem "puma",            "5.5.2"
-gem "bootsnap",        "1.9.3", require: false
+gem "rails",                   "7.0.0"
+gem "bcrypt",                  "3.1.16"
+gem "faker",                   "2.19.0"
+gem "will_paginate",           "3.3.1"
+gem "bootstrap-will_paginate", "1.0.0"
+gem "bootstrap-sass",          "3.4.1"
+gem "sprockets-rails",         "3.4.2"
+gem "importmap-rails",         "1.0.1"
+gem "turbo-rails",             "1.0.0"
+gem "stimulus-rails",          "1.0.2"
+gem "jbuilder",                "2.11.5"
+gem "puma",                    "5.5.2"
+gem "bootsnap",                "1.9.3", require: false
 
 group :development, :test do
   gem "debug",   "1.4.0", platforms: %i[ mri mingw x64_mingw ]
