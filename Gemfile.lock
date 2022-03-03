@@ -93,15 +93,10 @@ GEM
       reline (>= 0.2.7)
     erubi (1.10.0)
     execjs (2.8.1)
-<<<<<<< HEAD
     faker (2.19.0)
       i18n (>= 1.6, < 2)
-    ffi (1.15.4)
-    formatador (0.3.0)
-=======
     ffi (1.15.5)
     formatador (1.1.0)
->>>>>>> advanced-login
     globalid (1.0.0)
       activesupport (>= 5.0)
     guard (2.18.0)
