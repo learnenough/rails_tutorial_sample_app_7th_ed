@@ -1,0 +1,8 @@
+<%= turbo_stream.replace "follow_form" do %>
+  <%= render partial: "users/follow_form" %>
+<% end %>
+<%= turbo_stream.replace "followers" do %>
+  <strong id="followers" class="stat">
+    <%= @user.followers.count %>
+  </strong>
+<% end %>
