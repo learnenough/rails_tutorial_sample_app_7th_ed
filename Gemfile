@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "rails",                      "7.0.0"
+gem "rails",                      "7.0.2.2"
 gem "image_processing",           "1.12.2"
 gem "active_storage_validations", "0.9.6"
 gem "bcrypt",                     "3.1.16"
@@ -16,6 +16,7 @@ gem "stimulus-rails",             "1.0.2"
 gem "jbuilder",                   "2.11.5"
 gem "puma",                       "5.5.2"
 gem "bootsnap",                   "1.9.3", require: false
+gem "sassc-rails",                "2.1.2"
 
 group :development, :test do
   gem "debug",   "1.4.0", platforms: %i[ mri mingw x64_mingw ]
