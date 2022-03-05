@@ -15,7 +15,7 @@
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
         <% if logged_in? %>
-          <li><%= link_to "Users", '#' %></li>
+          <li><%= link_to "Users", users_path %></li>
           <li class="dropdown">
             <a href="#" id="dropdown-toggle" class="dropdown-toggle">
               Account <b class="caret"></b>
