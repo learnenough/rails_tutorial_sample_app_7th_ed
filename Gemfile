@@ -3,19 +3,19 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "rails",                      "7.0.2.3"
 gem "image_processing",           "1.12.2"
-gem "active_storage_validations", "0.9.6"
+gem "active_storage_validations", "0.9.7"
 gem "bcrypt",                     "3.1.16"
-gem "faker",                      "2.19.0"
+gem "faker",                      "2.20.0"
 gem "will_paginate",              "3.3.1"
 gem "bootstrap-will_paginate",    "1.0.0"
 gem "bootstrap-sass",             "3.4.1"
 gem "sprockets-rails",            "3.4.2"
-gem "importmap-rails",            "1.0.1"
-gem "turbo-rails",                "1.0.0"
-gem "stimulus-rails",             "1.0.2"
+gem "importmap-rails",            "1.0.3"
+gem "turbo-rails",                "1.0.1"
+gem "stimulus-rails",             "1.0.4"
 gem "jbuilder",                   "2.11.5"
-gem "puma",                       "5.5.2"
-gem "bootsnap",                   "1.9.3", require: false
+gem "puma",                       "5.6.2"
+gem "bootsnap",                   "1.11.1", require: false
 gem "sassc-rails",                "2.1.2"
 
 group :development, :test do
@@ -33,13 +33,13 @@ group :test do
   gem "webdrivers",               "5.0.0"
   gem "rails-controller-testing", "1.0.5"
   gem "minitest",                 "5.15.0"
-  gem "minitest-reporters",       "1.4.3"
+  gem "minitest-reporters",       "1.5.0"
   gem "guard",                    "2.18.0"
   gem "guard-minitest",           "2.4.6"
 end
 
 group :production do
-  gem "pg",         "1.2.3"
+  gem "pg",         "1.3.3"
   gem "aws-sdk-s3", "1.113.0", require: false
 end
 
