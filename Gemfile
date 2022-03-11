@@ -9,6 +9,7 @@ gem "faker",                      "2.20.0"
 gem "will_paginate",              "3.3.1"
 gem "bootstrap-will_paginate",    "1.0.0"
 gem "bootstrap-sass",             "3.4.1"
+gem "sassc-rails",                "2.1.2"
 gem "sprockets-rails",            "3.4.2"
 gem "importmap-rails",            "1.0.3"
 gem "turbo-rails",                "1.0.1"
@@ -16,7 +17,6 @@ gem "stimulus-rails",             "1.0.4"
 gem "jbuilder",                   "2.11.5"
 gem "puma",                       "5.6.2"
 gem "bootsnap",                   "1.11.1", require: false
-gem "sassc-rails",                "2.1.2"
 
 group :development, :test do
   gem "debug",   "1.4.0", platforms: %i[ mri mingw x64_mingw ]
