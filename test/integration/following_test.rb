@@ -30,6 +30,7 @@ class FollowingTest < ActionDispatch::IntegrationTest
     assert_difference "@user.following.count", 1 do
       post relationships_path, params: { followed_id: @other.id }
     end
+    assert_redirected_to @other
   end
 
   test "should follow a user with Hotwire" do
@@ -45,6 +46,8 @@ class FollowingTest < ActionDispatch::IntegrationTest
     assert_difference "@user.following.count", -1 do
       delete relationship_path(relationship)
     end
+    assert_response :see_other
+    assert_redirected_to @other
   end
 
   test "should unfollow a user with Hotwire" do
