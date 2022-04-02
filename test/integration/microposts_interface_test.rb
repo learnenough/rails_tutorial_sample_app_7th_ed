@@ -59,3 +59,27 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     assert assigns(:micropost).image.attached?
   end
 end
+
+class MicropostSidebarTest < ActionDispatch::IntegrationTest
+
+  test "should display the right micropost count" do
+    user = users(:michael)
+    log_in_as(user)
+    get root_path
+    assert_match "#{user.microposts.count} microposts", response.body
+  end
+
+  test "should user proper pluralization for zero microposts" do
+    user = users(:malory)
+    log_in_as(user)
+    get root_path
+    assert_match "0 microposts", response.body
+  end
+
+  test "should user proper pluralization for one micropost" do
+    user = users(:lana)
+    log_in_as(user)
+    get root_path
+    assert_match "1 micropost", response.body
+  end
+end

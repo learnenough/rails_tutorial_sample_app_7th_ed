@@ -5,9 +5,6 @@ class UsersSignup < ActionDispatch::IntegrationTest
   def setup
     ActionMailer::Base.deliveries.clear
   end
-end
-
-class SignupTest < UsersSignup
 
   test "invalid signup information" do
     get signup_path
@@ -33,10 +30,10 @@ class SignupTest < UsersSignup
   end
 end
 
-class ValidSignupTest < UsersSignup
+class AccountActivationTest < ActionDispatch::IntegrationTest
 
   def setup
-    super
+    ActionMailer::Base.deliveries.clear
     post users_path, params: { user: { name:  "Example User",
                                        email: "user@example.com",
                                        password:              "password",
