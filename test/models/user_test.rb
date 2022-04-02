@@ -104,12 +104,15 @@ class UserFollowingTest < ActiveSupport::TestCase
   end
 end
 
-class UserFeedTest < UserFollowingTest
+class UserFeed < UserFollowingTest
 
   def setup
     super
     @lana = users(:lana)
   end
+end
+
+class UserFeedTest < UserFeed
 
   test "should have posts from followed user" do
     @lana.microposts.each do |post_following|

@@ -20,7 +20,7 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
   end
 end
 
-class PasswordFormTest < PasswordResetsTest
+class PasswordForm < PasswordResetsTest
 
   def setup
     super
@@ -28,6 +28,9 @@ class PasswordFormTest < PasswordResetsTest
          params: { password_reset: { email: @user.email } }
     @actual_user = assigns(:user)
   end
+end
+
+class PasswordFormTest < PasswordForm
 
   test "reset with valid email" do
     assert_not_equal @user.reset_digest, @user.reload.reset_digest
@@ -61,7 +64,7 @@ class PasswordFormTest < PasswordResetsTest
   end
 end
 
-class PasswordUpdateTest < PasswordFormTest
+class PasswordUpdateTest < PasswordForm
 
   test "update with invalid password and confirmation" do
     patch password_reset_path(@actual_user.reset_token),
