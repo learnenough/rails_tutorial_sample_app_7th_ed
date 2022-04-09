@@ -1,13 +1,13 @@
 require "test_helper"
 
-class UsersLoginTest < ActionDispatch::IntegrationTest
+class UsersLogin < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael)
   end
 end
 
-class InvalidPasswordTest < UsersLoginTest
+class InvalidPasswordTest < UsersLogin
 
   test "login path" do
     get login_path
@@ -25,7 +25,7 @@ class InvalidPasswordTest < UsersLoginTest
   end
 end
 
-class ValidLogin < UsersLoginTest
+class ValidLogin < UsersLogin
 
   def setup
     super
@@ -50,12 +50,15 @@ class ValidLoginTest < ValidLogin
   end
 end
 
-class LogoutTest < ValidLogin
+class Logout < ValidLogin
 
   def setup
     super
     delete logout_path
   end
+end
+
+class LogoutTest < Logout
 
   test "successful logout" do
     assert_not is_logged_in?
@@ -76,7 +79,7 @@ class LogoutTest < ValidLogin
   end
 end
 
-class RememberingTest < UsersLoginTest
+class RememberingTest < UsersLogin
 
   test "login with remembering" do
     log_in_as(@user, remember_me: '1')

@@ -5,9 +5,11 @@ class UsersSignup < ActionDispatch::IntegrationTest
   def setup
     ActionMailer::Base.deliveries.clear
   end
+end
+
+class UsersSignupTest < UsersSignup
 
   test "invalid signup information" do
-    get signup_path
     assert_no_difference 'User.count' do
       post users_path, params: { user: { name:  "",
                                          email: "user@invalid",
@@ -30,16 +32,18 @@ class UsersSignup < ActionDispatch::IntegrationTest
   end
 end
 
-class AccountActivationTest < ActionDispatch::IntegrationTest
-
+class AccountActivation < UsersSignup
   def setup
-    ActionMailer::Base.deliveries.clear
+    super
     post users_path, params: { user: { name:  "Example User",
                                        email: "user@example.com",
                                        password:              "password",
                                        password_confirmation: "password" } }
     @user = assigns(:user)
   end
+end
+
+class AccountActivationTest < AccountActivation
 
   test "should not be activated" do
     assert_not @user.activated?
@@ -60,7 +64,7 @@ class AccountActivationTest < ActionDispatch::IntegrationTest
     assert_not is_logged_in?
   end
 
-  test "should log in successfully with valid activation token" do
+  test "should log in successfully with valid activation token and email" do
     get edit_account_activation_path(@user.activation_token, email: @user.email)
     assert @user.reload.activated?
     follow_redirect!

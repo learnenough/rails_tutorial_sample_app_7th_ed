@@ -1,11 +1,14 @@
 require "test_helper"
 
-class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
+class MicropostsInterface < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael)
     log_in_as(@user)
   end
+end
+
+class MicropostsInterfaceTest < MicropostsInterface
 
   test "should paginate microposts" do
     get root_path
@@ -46,6 +49,29 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     get user_path(users(:archer))
     assert_select 'a', { text: 'delete', count: 0 }
   end
+end
+
+class MicropostSidebarTest < MicropostsInterface
+
+  test "should display the right micropost count" do
+    get root_path
+    assert_match "#{@user.microposts.count} microposts", response.body
+  end
+
+  test "should user proper pluralization for zero microposts" do
+    log_in_as(users(:malory))
+    get root_path
+    assert_match "0 microposts", response.body
+  end
+
+  test "should user proper pluralization for one micropost" do
+    log_in_as(users(:lana))
+    get root_path
+    assert_match "1 micropost", response.body
+  end
+end
+
+class ImageUploadTest < MicropostsInterface
 
   test "should have a file input field for images" do
     get root_path
@@ -53,33 +79,9 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
   end
 
   test "should be able to attach an image" do
-    cont = "This micropost really ties the room together"
+    cont = "This micropost really ties the room together."
     img  = fixture_file_upload('test/fixtures/kitten.jpg', 'image/jpeg')
     post microposts_path, params: { micropost: { content: cont, image: img } }
     assert assigns(:micropost).image.attached?
-  end
-end
-
-class MicropostSidebarTest < ActionDispatch::IntegrationTest
-
-  test "should display the right micropost count" do
-    user = users(:michael)
-    log_in_as(user)
-    get root_path
-    assert_match "#{user.microposts.count} microposts", response.body
-  end
-
-  test "should user proper pluralization for zero microposts" do
-    user = users(:malory)
-    log_in_as(user)
-    get root_path
-    assert_match "0 microposts", response.body
-  end
-
-  test "should user proper pluralization for one micropost" do
-    user = users(:lana)
-    log_in_as(user)
-    get root_path
-    assert_match "1 micropost", response.body
   end
 end
