@@ -39,7 +39,7 @@ group :production do
   gem "pg", "1.3.3"
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem.
 # Uncomment the following line if you're running Rails
 # on a native Windows system:
-# gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
