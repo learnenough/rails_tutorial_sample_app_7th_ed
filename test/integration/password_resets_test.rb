@@ -19,6 +19,7 @@ class PasswordResetsTest < PasswordResets
   test "reset path with invalid email" do
     post password_resets_path, params: { password_reset: { email: "" } }
     assert_not flash.empty?
+    assert_response :unprocessable_entity
     assert_template 'password_resets/new'
   end
 end
