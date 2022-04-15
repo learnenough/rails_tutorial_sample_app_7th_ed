@@ -20,17 +20,32 @@ $ git clone https://github.com/learnenough/rails_tutorial_sample_app_7th_ed
 $ cd rails_tutorial_sample_app_7th_ed/
 ```
 
-To install the gems, you will need the same version of Bundler used to build the sample app, which you can find using the `tail` command as follows:
+To install the gems, you will need the same versions of Ruby and Bundler used to build the sample app, which you can find using the `cat` and `tail` commands as follows:
 
 ```
+$ cat .ruby-version
+<Ruby version number>
 $ tail -n1 Gemfile.lock
-   <version number>
+   <Bundler version number>
 ```
 
-Next, install the same version of the `bundler` gem and install the gems accordingly:
+Next, install the versions of `ruby` and the `bundler` gem from the above commands. The Ruby installation is system-dependent; on the cloud IDE recommended in the tutorial, it can be installed as follows:
+
+```
+$ rvm get stable
+$ rvm install <Ruby version number>
+$ rvm --default use <Ruby version number>
+```
+
+See the section [Up and running](https://www.learnenough.com/ruby-on-rails-7th-edition-tutorial#sec-up_and_running) for more details. Once Ruby is installed, the `bundler` gem can be installed using the `gem` command:
 
 ```
 $ gem install bundler -v <version number>
+```
+
+Then the rest of the necessary gems can be installed with `bundle` (taking care to skip any production gems in the development environment):
+
+```
 $ bundle _<version number>_ config set --local without 'production'
 $ bundle _<version number>_ install
 ```
