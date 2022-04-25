@@ -1,8 +1,11 @@
+# This is the Guardfile for the 7th edition of the Rails Tutorial.
+# For the 6th edition, see here:
+# https://github.com/learnenough/sample_app_6th_ed/blob/main/Guardfile
+
 require "active_support/inflector"
 # Defines the matching rules for Guard.
 guard :minitest, all_on_start: false do
   watch(%r{^test/(.*)/?(.*)_test\.rb$})
-  'foos'.singularize
   watch('test/test_helper.rb') { 'test' }
   watch('config/routes.rb') { interface_tests }
   watch(%r{app/views/layouts/*}) { interface_tests }
