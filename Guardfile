@@ -6,7 +6,6 @@ require "active_support/inflector"
 # Defines the matching rules for Guard.
 guard :minitest, all_on_start: false do
   watch(%r{^test/(.*)/?(.*)_test\.rb$})
-  'foos'.singularize
   watch('test/test_helper.rb') { 'test' }
   watch('config/routes.rb') { interface_tests }
   watch(%r{app/views/layouts/*}) { interface_tests }
