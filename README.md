@@ -52,12 +52,19 @@ $ bundle _<version number>_ config set --local without 'production'
 $ bundle _<version number>_ install
 ```
 
-Here you should replace `<version number>` with the actual version number. For example, if `<version number>` is `2.3.11`, then the commands should look like this:
+Here you should replace `<version number>` with the actual version number. For example, if `<version number>` is `2.3.14`, then the commands should look like this:
 
 ```
-$ gem install bundler -v 2.3.11
-$ bundle _2.3.11_ config set --local without 'production'
-$ bundle _2.3.11_ install
+$ gem install bundler -v 2.3.14
+$ bundle _2.3.14_ config set --local without 'production'
+$ bundle _2.3.14_ install
+```
+
+If you run into any trouble, you can remove `Gemfile.lock` and rebundle at any time:
+
+```
+$ rm -f Gemfile.lock
+$ bundle install
 ```
 
 Next, migrate the database:
