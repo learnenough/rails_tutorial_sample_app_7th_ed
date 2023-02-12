@@ -1,0 +1,6 @@
+name: Verify
+on: [push]
+
+jobs:
+  verify:
+    uses: setup-rails/setup-rails/.github/workflows/verify.yml@v1
