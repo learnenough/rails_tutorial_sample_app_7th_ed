@@ -43,5 +43,5 @@ jobs:
       - name: Archive AppMaps
         uses: getappmap/archive-action@v1-pre.13
         with:
-          revision: $(git rev-parse HEAD)
+          revision: $GITHUB_SHA
           verbose: true
