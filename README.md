@@ -18,7 +18,7 @@ is available jointly under the MIT License and the Beerware License. See
 To get started with the app, clone the repo and then install the needed gems. You can clone the repo as follows:
 
 ```
-$ git clone https://github.com/learnenough/rails_tutorial_sample_app_7th_ed 
+$ git clone https://github.com/learnenough/rails_tutorial_sample_app_7th_ed
 $ cd rails_tutorial_sample_app_7th_ed/
 ```
 
