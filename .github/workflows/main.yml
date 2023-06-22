@@ -26,6 +26,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Prepare bundle for AppMap installation
+        run: bundle config unset deployment
       - name: Install AppMap tools
         uses: getappmap/install-action@v1-pre.8
         with:
