@@ -26,7 +26,20 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Install AppMap tools
+        uses: getappmap/install-action@v1-pre.8
+        with:
+          project-type: bundler
+          verbose: true
+      - name: Update PATH
+        run: PATH=/tmp/:$PATH
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
         run: ./bin/rails test
+      - name: Archive AppMaps
+        uses: getappmap/archive-action@v1-pre.13
+        with:
+          revision: $(git rev-parse HEAD)
+          verbose: true
+          if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
