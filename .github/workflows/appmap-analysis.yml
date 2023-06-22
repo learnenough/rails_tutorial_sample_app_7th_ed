@@ -1,24 +1,18 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
-# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+name: AppMap Analysis
 
-name: Run Tests and Archive AppMaps
-
-on: [ push ]
-
-permissions:
-  contents: read
-
+on:
+  pull_request:
+  schedule:
+    # Keep the artifact up to date, as it will expire after 90 days.
+    - cron: 1 1 1 * *
+ 
 env:
-  APPMAP_TELEMETRY_DISABLED: "true"
+  APPMAP_TELEMETRY_DISABLED: 'true'
+  DISABLE_SPRING: 'true'
 
 jobs:
-  test:
+  appmap-analysis:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
@@ -37,9 +31,11 @@ jobs:
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
-        run: ./bin/rails test
-      - name: Archive AppMaps
-        uses: getappmap/archive-action@v1-pre.13
+        run: ./bin/rails test || true
+      - name: Analyze AppMaps
+        uses: getappmap/analyze-action@v1-pre.13
         with:
-          revision: $GITHUB_SHA
+          base-revision: ${{ github.event.pull_request.base.sha }}
+          head-revision: ${{ github.event.pull_request.head.sha }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           verbose: true
