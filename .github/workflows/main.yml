@@ -18,6 +18,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
@@ -33,8 +34,8 @@ jobs:
         with:
           project-type: bundler
           verbose: true
-      - name: Update PATH
-        run: PATH=/tmp/:$PATH
+      - name: TEMP Fix for AppMap Path
+        run: ln -s /usr/local/bin /tmp/
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
@@ -44,4 +45,3 @@ jobs:
         with:
           revision: $(git rev-parse HEAD)
           verbose: true
-          if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
