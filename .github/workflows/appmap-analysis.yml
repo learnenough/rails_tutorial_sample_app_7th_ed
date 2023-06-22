@@ -31,7 +31,12 @@ jobs:
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
-        run: ./bin/rails test || true
+        run: | 
+          set +e
+          ./bin/rails test
+          exit_status=$?
+          echo "exit-status=$exit_status" >> $GITHUB_OUTPUT
+
       - name: Analyze AppMaps
         uses: getappmap/analyze-action@v1-pre.13
         with:
@@ -39,3 +44,7 @@ jobs:
           head-revision: ${{ github.event.pull_request.head.sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           verbose: true
+          
+      - name: Report the exit status
+        if: steps.test.outputs.exit-status != 0
+        run: exit ${{ steps.test.outputs.exit-status }}
