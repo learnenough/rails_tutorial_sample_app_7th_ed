@@ -1,6 +1,9 @@
 name: Run Tests and Archive AppMaps
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -11,7 +14,6 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
