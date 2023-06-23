@@ -31,20 +31,17 @@ jobs:
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
-        run: | 
-          set +e
-          ./bin/rails test
-          exit_status=$?
-          echo "exit-status=$exit_status" >> $GITHUB_OUTPUT
-
+        run: ./bin/rails test
       - name: Analyze AppMaps
+        if: always() # Let AppMap analyze the failed tests
         uses: getappmap/analyze-action@v1-pre.13
         with:
           base-revision: ${{ github.event.pull_request.base.sha }}
           head-revision: ${{ github.event.pull_request.head.sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           verbose: true
-          
-      - name: Report the exit status
-        if: steps.test.outputs.exit-status != 0
-        run: exit ${{ steps.test.outputs.exit-status }}
+      - name: PR Comment AppMap Report
+        if: always() # Always Post the AppMap Report
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: ".appmap/change-report/${{ github.event.pull_request.base.sha }}-${{ github.event.pull_request.head.sha }}/report.md"
