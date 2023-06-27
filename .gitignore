@@ -40,3 +40,5 @@ db/test.*
 
 # Ignore Vendored Gems 
 /vendor
+
+# Ignore Appmap temp dir
