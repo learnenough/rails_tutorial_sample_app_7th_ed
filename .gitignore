@@ -42,3 +42,5 @@ db/test.*
 /vendor
 
 # Ignore Appmap temp dir
+tmp/appmap
+.appmap
