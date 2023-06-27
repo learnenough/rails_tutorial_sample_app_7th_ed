@@ -9,7 +9,6 @@
 git checkout main
 rm -rfv .appmap/ tmp/appmap/
 bundle exec rails test || true
-sleep 5 # AppMap needs time to index maps
 appmap archive
 base_revision=$(git rev-parse HEAD)
 echo $base_revision
@@ -17,7 +16,6 @@ rm -rf tmp/appmap
 
 git checkout demo/break-test 
 bundle exec rails test || true
-sleep 5 # AppMap needs time to index maps
 appmap archive
 head_revision=$(git rev-parse HEAD)
 echo $head_revision
