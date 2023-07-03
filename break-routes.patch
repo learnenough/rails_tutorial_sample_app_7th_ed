@@ -1,0 +1,12 @@
+diff --git a/config/routes.rb b/config/routes.rb
+index c1b5af3..969640d 100644
+--- a/config/routes.rb
++++ b/config/routes.rb
+@@ -15,6 +15,6 @@ Rails.application.routes.draw do
+   resources :account_activations, only: [:edit]
+   resources :password_resets,     only: [:new, :create, :edit, :update]
+   resources :microposts,          only: [:create, :destroy]
+-  resources :relationships,       only: [:create, :destroy]
++  resources :relationsips,       only: [:create, :destroy]
+   get '/microposts', to: 'static_pages#home'
+ end
