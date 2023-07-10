@@ -2,12 +2,15 @@ name: AppMap Analysis
 
 on:
   pull_request:
-  schedule:
-    # Keep the artifact up to date, as it will expire after 90 days.
-    - cron: 1 1 1 * *
- 
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
 env:
-  APPMAP_TELEMETRY_DISABLED: 'true'
   DISABLE_SPRING: 'true'
 
 jobs:
@@ -16,32 +19,33 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
-      # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
-      # change this to (see https://github.com/ruby/setup-ruby#versioning):
         uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          bundler-cache: true
       - name: Prepare bundle for AppMap installation
         run: bundle config unset deployment
       - name: Install AppMap tools
         uses: getappmap/install-action@v1-pre.9
         with:
           project-type: bundler
-          verbose: true
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
         run: ./bin/rails test
       - name: Analyze AppMaps
-        if: always() # Let AppMap analyze the failed tests
+        if: (success() || failure()) && github.event_name == 'pull_request'
         uses: getappmap/analyze-action@v1-pre.13
         with:
           base-revision: ${{ github.event.pull_request.base.sha }}
           head-revision: ${{ github.event.pull_request.head.sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          verbose: true
       - name: PR Comment AppMap Report
-        if: always() # Always Post the AppMap Report
+        if: (success() || failure()) && github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: ".appmap/change-report/${{ github.event.pull_request.base.sha }}-${{ github.event.pull_request.head.sha }}/report.md"
+          comment_tag: appmap # This lets AppMap update the initial comment with a new report.
+      - name: Archive AppMaps
+        if: (success() || failure()) && github.event_name == 'push'
+        uses: getappmap/archive-action@v1-pre.13
+        
