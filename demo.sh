@@ -14,7 +14,7 @@ base_revision=$(git rev-parse HEAD)
 echo $base_revision
 rm -rf tmp/appmap 
 
-git checkout demo/break-test 
+git checkout $1
 bundle exec rails test || true
 appmap archive
 head_revision=$(git rev-parse HEAD)
