@@ -9,6 +9,7 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  checks: write
 
 env:
   DISABLE_SPRING: 'true'
@@ -17,48 +18,32 @@ jobs:
   appmap-analysis:
     runs-on: ubuntu-latest
     steps:
-    ####################################################################
-    ## Put actions here needed to build an environment and run your tests
       - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-    ####################################################################
-    # Install AppMap tools
+
       - name: Prepare bundle for AppMap installation
         run: bundle config unset deployment
       - name: Install AppMap tools
-        uses: getappmap/install-action@v1-pre.10
+        uses: getappmap/install-action@v1.0
         with:
           project-type: bundler
-    ####################################################################
-    # Put the commands required to run your application test suite
-    # This will be the set of tests that will generate AppMaps for Analysis
+
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
         run: ./bin/rails test
-    ####################################################################
-    ## These are the Actions that will run on Pull Request and the mainline
-    ## to analyze your changes in a Pull Request
+
+      - name: Archive AppMaps
+        if: github.event_name != 'pull_request'
+        uses: getappmap/archive-action@v1-pre.13
+
       - name: Analyze AppMaps
-        # We want to analyze the AppMaps even if the tests fail.
         if: (success() || failure()) && github.event_name == 'pull_request'
-        uses: getappmap/analyze-action@v1-pre.14
+        uses: getappmap/analyze-action@v1-pre.16
         with:
           base-revision: ${{ github.event.pull_request.base.sha }}
           head-revision: ${{ github.event.pull_request.head.sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: PR Comment AppMap Report
-        # We want to include the full analysis report on the PR even if the tests fail.
-        if: (success() || failure()) && github.event_name == 'pull_request'
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          filePath: ".appmap/change-report/${{ github.event.pull_request.base.sha }}-${{ github.event.pull_request.head.sha }}/report.md"
-          comment_tag: appmap # This lets AppMap update the initial comment with a new report.
-      - name: Archive AppMaps
-        # Only run this action when code merges to the mainline
-        if: github.event_name != 'pull_request'
-        uses: getappmap/archive-action@v1-pre.13
-        
