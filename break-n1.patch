@@ -1,0 +1,26 @@
+diff --git a/app/controllers/users_controller.rb b/app/controllers/users_controller.rb
+index 9f74f4f..93c3848 100644
+--- a/app/controllers/users_controller.rb
++++ b/app/controllers/users_controller.rb
+@@ -10,7 +10,7 @@ class UsersController < ApplicationController
+ 
+   def show
+     @user = User.find(params[:id])
+-    @microposts = @user.microposts.includes(:user, image_attachment: :blob).paginate(page: params[:page])
++    @microposts = @user.microposts.paginate(page: params[:page])
+   end
+ 
+   def new
+diff --git a/app/helpers/sessions_helper.rb b/app/helpers/sessions_helper.rb
+index 73b22cc..66d0130 100644
+--- a/app/helpers/sessions_helper.rb
++++ b/app/helpers/sessions_helper.rb
+@@ -17,6 +17,8 @@ module SessionsHelper
+ 
+   # Returns the user corresponding to the remember token cookie.
+   def current_user
+-    return @current_user if @current_user
+-
+     if (user_id = session[:user_id])
+       user = User.find_by(id: user_id)
+       if user && session[:session_token] == user.session_token
