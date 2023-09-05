@@ -1,49 +1,48 @@
-name: AppMap Analysis
+name: appmap-analysis
 
 on:
   pull_request:
   push:
     branches:
       - main
-
-permissions:
-  contents: read
-  pull-requests: write
-  checks: write
-
-env:
-  DISABLE_SPRING: 'true'
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
-  appmap-analysis:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-
-      - name: Prepare bundle for AppMap installation
-        run: bundle config unset deployment
+      - name: Enable appmap gem update
+        run: bundle config unset deployment      
       - name: Install AppMap tools
-        uses: getappmap/install-action@v1.0
+        id: install-appmap
+        uses: getappmap/install-action@v1
         with:
           project-type: bundler
-
       - name: Rails test setup
         run: ./bin/rails db:migrate
       - name: Run tests
         run: ./bin/rails test
-
-      - name: Archive AppMaps
-        if: github.event_name != 'pull_request'
-        uses: getappmap/archive-action@v1-pre.13
-
-      - name: Analyze AppMaps
-        if: (success() || failure()) && github.event_name == 'pull_request'
-        uses: getappmap/analyze-action@v1-pre.16
+      
+      - name: Save AppMaps
+        uses: actions/cache/save@v3
+        if: always()
         with:
-          base-revision: ${{ github.event.pull_request.base.sha }}
-          head-revision: ${{ github.event.pull_request.head.sha }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ steps.install-appmap.outputs.appmap-dir }}
+          key: appmaps-${{ github.sha }}-${{ github.run_attempt }}
+
+  appmap-analysis:
+    if: always()
+    needs: [test]
+    uses: getappmap/analyze-action/.github/workflows/appmap-analysis.yml@v1
+    permissions:
+      actions: read
+      contents: read
+      checks: write
+      pull-requests: write
